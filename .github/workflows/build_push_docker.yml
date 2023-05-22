@@ -1,6 +1,7 @@
 name: Build and push Docker image upon release
 
 on:
+  workflow_dispatch:
   # Build and push Docker images *only* for releases.
   release:
     types: [published] # , created, edited
