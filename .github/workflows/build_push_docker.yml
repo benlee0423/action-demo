@@ -24,4 +24,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: awiciroh/echo-hello:latest
+          platforms: linux/arm64
+          tags: awiciroh/echo-hello:latest-arm64
