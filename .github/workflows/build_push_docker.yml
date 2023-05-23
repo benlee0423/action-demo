@@ -17,7 +17,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: name/app
+          images: awiciroh/echo-hello
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -28,4 +28,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: awiciroh/echo-hello:${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
