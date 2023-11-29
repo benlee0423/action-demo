@@ -8,3 +8,9 @@ jobs:
   second:
     needs: first
     uses: ./.github/workflows/second.yml
+  third:
+    needs: second
+    uses: ./.github/workflows/third.yml
+  fourth:
+    needs: third
+    uses: ./.github/workflows/fourth.yml
