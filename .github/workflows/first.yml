@@ -10,5 +10,5 @@ jobs:
       - name: deploy
         uses: actions/checkout@v4
         with:
-          ref: "$GITHUB_REF_NAME"
+          ref: ${{ github.ref_name}}
       - run: echo "base branch is $GITHUB_REF_NAME"
