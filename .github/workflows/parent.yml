@@ -3,5 +3,5 @@ on:
   workflow_dispatch:
 
 jobs:
-  job1:
-    uses: ./.github/workflows/first.yaml
+  first:
+    uses: ./.github/workflows/first.yml
