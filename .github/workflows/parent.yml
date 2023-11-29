@@ -1,0 +1,10 @@
+name: Parent workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  first:
+    uses: ./.github/workflows/first.yml
+  second:
+    needs: first
+    uses: ./.github/workflows/second.yml
