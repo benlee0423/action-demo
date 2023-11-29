@@ -1,0 +1,17 @@
+name: Second workflow
+on:
+  workflow_run:
+    workflows: [First workflow]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - run: echo "base branch is $GITHUB_REF_NAME"
