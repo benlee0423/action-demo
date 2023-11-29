@@ -4,4 +4,4 @@ on:
 
 jobs:
   job1:
-    uses: action-demo/.github/workflows/first.yaml@v1
+    uses: ./.github/workflows/first.yaml
