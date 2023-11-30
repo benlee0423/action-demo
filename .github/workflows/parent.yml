@@ -1,6 +1,12 @@
 name: Parent workflow
 on:
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag Name'
+        required: false
+        default: 'latest-arm'
+        type: string
 
 jobs:
   first:
