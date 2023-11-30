@@ -8,7 +8,7 @@ on:
         default: 'latest-arm'
         type: string
 env:
-  TAG_NAME: ${{ github.event.inputs.my_value }}
+  TAG_NAME: ${{ github.event.inputs.tag_name }}
 
 jobs:
   first:
