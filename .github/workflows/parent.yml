@@ -7,19 +7,17 @@ on:
         required: false
         default: 'latest-arm'
         type: string
-env:
-  TAG_NAME: ${{ github.event.inputs.tag_name }}
 
 jobs:
   first:
     uses: ./.github/workflows/first.yml
     with:
-      tag_name: latest-arm
+      tag_name: ${{inputs.tag_name}}
   second:
     needs: first
     uses: ./.github/workflows/second.yml
     with:
-      tag_name: $TAG_NAME
+      tag_name: ${{inputs.tag_name}}
   third:
     needs: second
     uses: ./.github/workflows/third.yml
