@@ -1,1 +1,16 @@
-
+name: Slack Message
+on:
+  workflow_dispatch:
+jobs:
+  slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: send slack message
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "GitHub Action build result ( test ): ${{ job.status }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.DOCKER_AUTH_TOKEN }}
