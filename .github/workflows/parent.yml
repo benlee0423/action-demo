@@ -12,10 +12,18 @@ on:
         default: 'latest-arm'
         type: string
   workflow_call:
-env:
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    steps:
+      - name: slack message
+        uses: ./.github/workflows/slack.yml
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          job-status: ${{ job.status }}
+          pull_request_url: ${{ github.event.pull_request.html_url }}
+          head_commit_url: ${{ github.event.head_commit.url }}
   first:
     uses: ./.github/workflows/first.yml
     with:
@@ -31,10 +39,3 @@ jobs:
   fourth:
     needs: third
     uses: ./.github/workflows/fourth.yml
-  slack:
-    uses: ./.github/workflows/slack.yml
-    with:
-      slack-webhook-url: ${{ env.SLACK_WEBHOOK_URL }}
-      job-status: ""
-      pull_request_url: ${{ github.event.pull_request.html_url }}
-      head_commit_url: ${{ github.event.head_commit.url }}
