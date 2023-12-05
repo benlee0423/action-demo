@@ -39,7 +39,7 @@ jobs:
         with:
           payload: |
             {
-             "text": "GitHub Action build result (test) : ${{ job.status }}"
+             "text": "GitHub Action build result (test) : ${{ github.event.workflow_run.conclusion }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
