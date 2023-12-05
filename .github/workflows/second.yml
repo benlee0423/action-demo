@@ -13,6 +13,4 @@ jobs:
     steps:
       - name: deploy
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name}}
       - run: echo "base branch is $GITHUB_REF_NAME ${{inputs.tag_name}}"
