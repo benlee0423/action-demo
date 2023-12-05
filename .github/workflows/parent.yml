@@ -5,8 +5,7 @@ on:
     paths:
       - docker/**
   pull_request:
-    paths:
-      - docker/**
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       tag_name:
