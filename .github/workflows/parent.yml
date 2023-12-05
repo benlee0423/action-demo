@@ -14,18 +14,6 @@ on:
   workflow_call:
 
 jobs:
-  on-success:
-    runs-on: ubuntu-latest
-    steps:
-      - name: send slack message
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-             "text": "GitHub Action build result (test) : ${{ job.status }}"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   first:
     uses: ./.github/workflows/first.yml
     with:
@@ -41,3 +29,17 @@ jobs:
   fourth:
     needs: third
     uses: ./.github/workflows/fourth.yml
+  slack:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [first, second, third, fourth]
+    steps:
+      - name: send slack message
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+             "text": "GitHub Action build result (test) : ${{ job.status }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
