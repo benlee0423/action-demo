@@ -1,16 +1,34 @@
 name: Slack Message
 on:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      slack-webhook-url:
+        description: 'Slack webhook url'
+        required: true
+        type: string
+      job-status:
+        description: 'Job status'
+        required: true
+        type: string
+      pull_request_url:
+        description: 'Pull request url'
+        required: true
+        type: string
+      head_commit_url:
+        description: 'Head commit url'
+        required: true
+        type: string
 jobs:
   slack:
     runs-on: ubuntu-latest
     steps:
-      - name: send slack message
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-              "text": "GitHub Action build result ( test ): ${{ job.status }}"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.DOCKER_AUTH_TOKEN }}
+    - name: send slack message
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        payload: |
+          {
+            "text": "GitHub Action build result: ${{ inputs.job-status }}\n${{ inputs.pull_request_url || inputs.head_commit_url }}"
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url}}
