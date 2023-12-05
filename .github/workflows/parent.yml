@@ -5,6 +5,7 @@ on:
     paths:
       - docker/**
   pull_request:
+    types: [opened, reopened, edited]
     paths:
       - docker/**
   workflow_dispatch:
