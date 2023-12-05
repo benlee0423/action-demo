@@ -2,6 +2,10 @@ name: First workflow
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      tag_name:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -10,5 +14,5 @@ jobs:
       - name: deploy
         uses: actions/checkout@v4
         with:
-          ref: "$GITHUB_REF_NAME"
-      - run: echo "base branch is $GITHUB_REF_NAME"
+          ref: ${{ github.ref_name}}
+      - run: echo "base branch is $GITHUB_REF_NAME ${{inputs.tag_name}}"

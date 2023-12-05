@@ -1,11 +1,7 @@
-name: Second workflow
+name: Third workflow
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-      tag_name:
-        required: true
-        type: string
 
 jobs:
   build:
@@ -15,4 +11,5 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name}}
-      - run: echo "base branch is $GITHUB_REF_NAME ${{inputs.tag_name}}"
+      - run: echo "base branch is $GITHUB_REF_NAME"
+      - run: exit 1
