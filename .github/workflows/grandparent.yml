@@ -27,17 +27,3 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - run: echo 'The triggering workflow failed'
-      - name: send slack message
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-             "text": "GitHub Action build result (test) : failure"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
