@@ -33,7 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [first, second, third, fourth]
-    steps: 
+    steps:
+      - run: echo 'slack message'
       - name: Publish slack message
         if: always()
         uses: ./.github/action_templates/slack
