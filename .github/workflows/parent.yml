@@ -29,12 +29,22 @@ jobs:
   fourth:
     needs: third
     uses: ./.github/workflows/fourth.yml
+  fifth:
+    needs: fourth
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+    steps:
+      - id: step1
+        run: echo "test=hello" >> "$GITHUB_OUTPUT"
   slack:
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [first, second, third, fourth]
+    needs: [first, second, third, fourth, fifth]
     steps:
-      - run: echo 'slack message'
+      - env:
+          OUTPUT1: ${{needs.fifth.outputs.output1}}
+      - run: echo "$OUTPUT1"
       - name: deploy
         uses: actions/checkout@v2
       - name: Publish slack message
