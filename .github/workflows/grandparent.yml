@@ -1,4 +1,4 @@
-name: Parent workflow
+name: Grand Parent workflow
 on:
   push:
     branches: [main]
