@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
+      - run: echo "${{ secrets.SLACK_WEBHOOK_URL }}"
       - name: send slack message
         uses: slackapi/slack-github-action@v1.24.0
         with:
