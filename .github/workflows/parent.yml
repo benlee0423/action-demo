@@ -35,6 +35,8 @@ jobs:
     needs: [first, second, third, fourth]
     steps:
       - run: echo 'slack message'
+      - name: deploy
+        uses: actions/checkout@v2
       - name: Publish slack message
         if: always()
         uses: ./.github/action_templates/slack
