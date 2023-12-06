@@ -1,11 +1,9 @@
 name: Parent workflow
 on:
   push:
-    branches: [ main ]
-    paths:
-      - docker/**
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
     inputs:
       tag_name:
@@ -13,6 +11,7 @@ on:
         required: false
         default: 'latest-arm'
         type: string
+  workflow_call:
 
 jobs:
   first:
@@ -30,3 +29,16 @@ jobs:
   fourth:
     needs: third
     uses: ./.github/workflows/fourth.yml
+  slack:
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [first, second, third, fourth]
+    steps: 
+      - name: Publish slack message
+        if: always()
+        uses: ./.github/action_templates/slack
+        with:
+          slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          job-status: ${{ job.status }}
+          pull_request_url: ${{ github.event.pull_request.html_url }}
+          head_commit_url: ${{ github.event.head_commit.url }}
