@@ -11,6 +11,7 @@ on:
         required: false
         default: 'latest-arm'
         type: string
+  workflow_call:
 
 jobs:
   on-success:
