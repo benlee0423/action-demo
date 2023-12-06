@@ -33,3 +33,5 @@ jobs:
     if: ${{ always() }}
     needs: [first, second, third, fourth]
     uses: ./.github/workflows/grandparent.yml
+    with:
+      slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
