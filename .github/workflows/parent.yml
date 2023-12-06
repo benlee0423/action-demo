@@ -44,7 +44,7 @@ jobs:
     steps:
       - env:
           OUTPUT1: ${{needs.fifth.outputs.output1}}
-      - run: echo "$OUTPUT1"
+        run: echo "$OUTPUT1"
       - name: deploy
         uses: actions/checkout@v2
       - name: Publish slack message
