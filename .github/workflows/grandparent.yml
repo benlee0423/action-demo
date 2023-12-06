@@ -12,13 +12,18 @@ on:
         default: 'latest-arm'
         type: string
   workflow_call:
+    inputs:
+      slack-webhook-url:
+        description: 'Slack webhook url'
+        required: true
+        type: string
 
 jobs:
   on-success:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - run: echo "${{ secrets.SLACK_WEBHOOK_URL }}"
+      - run: echo "${{ inputs.slack-webhook-url }}"
       - name: send slack message
         uses: slackapi/slack-github-action@v1.24.0
         with:
@@ -27,4 +32,4 @@ jobs:
              "text": "GitHub Action build result (test) : success"
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ inputs.slack-webhook-url }}
