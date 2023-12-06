@@ -34,7 +34,11 @@ jobs:
     if: ${{ always() }}
     needs: [first, second, third, fourth]
     steps: 
-      - name: slack message
-        uses: ./.github/workflows/grandparent.yml
+      - name: Publish slack message
+        if: always()
+        uses: ./.github/action_templates/slack
         with:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          job-status: ${{ job.status }}
+          pull_request_url: ${{ github.event.pull_request.html_url }}
+          head_commit_url: ${{ github.event.head_commit.url }}
