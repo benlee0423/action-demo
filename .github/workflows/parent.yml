@@ -52,6 +52,7 @@ jobs:
           else
               echo "JOBSTATUS=failure" >> "$GITHUB_ENV"
           fi
+      - run: echo "$JOBSTATUS"
       - name: deploy
         uses: actions/checkout@v2
       - name: Publish slack message
