@@ -33,18 +33,25 @@ jobs:
     needs: fourth
     runs-on: ubuntu-latest
     outputs:
-      output1: ${{ steps.step1.outputs.test }}
+      output1: ${{ steps.step1.outputs.result }}
     steps:
       - id: step1
-        run: echo "test=hello" >> "$GITHUB_OUTPUT"
+        run: echo "result=success" >> "$GITHUB_OUTPUT"
   slack:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [first, second, third, fourth, fifth]
     steps:
       - env:
-          OUTPUT1: ${{needs.fifth.outputs.output1}}
-        run: echo "$OUTPUT1"
+          OUTPUT: ${{needs.fifth.outputs.output1}}
+        run: echo "$OUTPUT"
+      - name: Set env JOBSTATUS
+        run: |
+          if [[ ${{needs.fifth.outputs.output1}} == 'success' ]]; then
+              echo "JOBSTATUS=success" >> "$GITHUB_ENV"
+          else
+              echo "JOBSTATUS=failure" >> "$GITHUB_ENV"
+          fi
       - name: deploy
         uses: actions/checkout@v2
       - name: Publish slack message
@@ -52,6 +59,6 @@ jobs:
         uses: ./.github/action_templates/slack
         with:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          job-status: ${{ job.status }}
+          job-status: env.JOBSTATUS
           pull_request_url: ${{ github.event.pull_request.html_url }}
           head_commit_url: ${{ github.event.head_commit.url }}
