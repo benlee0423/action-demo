@@ -36,6 +36,8 @@ jobs:
       output1: ${{ steps.step1.outputs.result }}
     steps:
       - id: step1
+        run: echo "result=success" >> "$GITHUB_OUTPUT"
+      - id: step2
         run: echo "result=success" >> "$GITHUB_ENV"
   slack:
     runs-on: ubuntu-latest
