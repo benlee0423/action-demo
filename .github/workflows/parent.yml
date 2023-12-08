@@ -37,8 +37,6 @@ jobs:
     steps:
       - id: step1
         run: echo "result=success" >> "$GITHUB_OUTPUT"
-      - id: step2
-        run: echo "result=success" >> "$GITHUB_ENV"
   slack:
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -55,7 +53,6 @@ jobs:
               echo "JOBSTATUS=failure" >> "$GITHUB_ENV"
           fi
       - run: echo "$JOBSTATUS"
-      - run: echo "$result"
       - name: deploy
         uses: actions/checkout@v2
       - name: Publish slack message
