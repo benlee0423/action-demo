@@ -10,4 +10,4 @@ jobs:
       - name: deploy
         uses: actions/checkout@v4
       - run: echo "base branch is $GITHUB_REF_NAME"
-      - run: exit 1
+      # - run: exit 1
