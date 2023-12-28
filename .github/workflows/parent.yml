@@ -47,6 +47,7 @@ jobs:
         run: echo "$OUTPUT"
       - name: Set env JOBSTATUS
         run: |
+          echo "$OUTPUT"
           if [[ "success" = "$OUTPUT" ]]
           then
               echo "JOBSTATUS=success" >> "$GITHUB_ENV"
