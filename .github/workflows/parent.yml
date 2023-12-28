@@ -41,10 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     needs: [first, second, third, fourth, fifth]
+    env:
+      OUTPUT: ${{needs.fifth.outputs.output1}}
     steps:
-      - env:
-          OUTPUT: ${{needs.fifth.outputs.output1}}
-        run: echo "$OUTPUT"
       - name: Set env JOBSTATUS
         run: |
           echo "$OUTPUT"
