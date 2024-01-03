@@ -14,3 +14,4 @@ jobs:
       - name: deploy
         uses: actions/checkout@v4
       - run: echo "base branch is $GITHUB_REF_NAME ${{inputs.tag_name}}"
+      - run : echo "env ${{env.TAG_NAME}}"
