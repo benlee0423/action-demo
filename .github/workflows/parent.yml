@@ -12,9 +12,23 @@ on:
         default: 'latest-arm'
         type: string
   workflow_call:
+env:
+  tag_name: tagname
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variables
+        run: |
+          if [[ -z ${{inputs.tag_name}} ]]
+          then
+              echo "TAG_NAME=${{inputs.tag_name}}" >> "$GITHUB_ENV"
+          else
+              echo "TAG_NAME=latest-arm" >> "$GITHUB_ENV"
+          fi
   first:
+    needs: setup
     uses: ./.github/workflows/first.yml
     with:
       tag_name: ${{inputs.tag_name}}
