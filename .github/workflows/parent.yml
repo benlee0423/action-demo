@@ -13,7 +13,8 @@ on:
         type: string
   workflow_call:
 env:
-  global_tag: global_tag
+  # Setting an environment variable with the value of a configuration variable
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
 
 jobs:
   setup:
