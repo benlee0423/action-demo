@@ -12,8 +12,6 @@ on:
         default: 'latest-arm'
         type: string
   workflow_call:
-env:
-  tag_name: tagname
 
 jobs:
   setup:
