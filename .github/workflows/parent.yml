@@ -37,6 +37,7 @@ jobs:
     steps:
       - id: step1
         run: echo "result=success" >> "$GITHUB_OUTPUT"
+      - run: echo " tag ${{inputs.tag_name}}"
   slack:
     runs-on: ubuntu-latest
     if: ${{ always() }}
