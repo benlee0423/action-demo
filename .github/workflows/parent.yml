@@ -12,6 +12,8 @@ on:
         default: 'latest-arm'
         type: string
   workflow_call:
+env:
+  global_tag: global_tag
 
 jobs:
   setup:
@@ -30,7 +32,7 @@ jobs:
     needs: setup
     uses: ./.github/workflows/first.yml
     with:
-      tag_name: ${{inputs.tag_name}}
+      tag_name: ${{env.TAG_NAME}}
   second:
     needs: first
     uses: ./.github/workflows/second.yml
