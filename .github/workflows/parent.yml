@@ -25,6 +25,7 @@ jobs:
           else
               echo "TAG_NAME=latest-arm" >> "$GITHUB_ENV"
           fi
+      - run : echo "env ${{env.TAG_NAME}}"
   first:
     needs: setup
     uses: ./.github/workflows/first.yml
