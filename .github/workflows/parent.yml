@@ -32,12 +32,14 @@ jobs:
   fifth:
     needs: fourth
     runs-on: ubuntu-latest
+    env:
+      tag_name: ${{inputs.tag_name}}
     outputs:
       output1: ${{ steps.step1.outputs.result }}
     steps:
       - id: step1
         run: echo "result=success" >> "$GITHUB_OUTPUT"
-      - run: echo " tag ${{inputs.tag_name}}"
+      - run: echo " tag ${{env.tag_name}}"
   slack:
     runs-on: ubuntu-latest
     if: ${{ always() }}
