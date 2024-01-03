@@ -32,7 +32,7 @@ jobs:
     needs: setup
     uses: ./.github/workflows/first.yml
     with:
-      tag_name: $TAG_NAME
+      tag_name: $global_tag
   second:
     needs: first
     uses: ./.github/workflows/second.yml
