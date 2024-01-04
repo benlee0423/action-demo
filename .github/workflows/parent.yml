@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Set environment variables
         run: |
-          if [[ -z "${{inputs + x}}" ]]
+          if [[ -z "${{inputs}}" ]]
           then
               #echo "TAG_NAME=latest-arm" >> "$GITHUB_ENV"
               echo "input unset"
