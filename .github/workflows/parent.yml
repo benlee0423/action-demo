@@ -22,11 +22,13 @@ jobs:
     steps:
       - name: Set environment variables
         run: |
-          if [[ -z "${{inputs.tag_name}} + x" ]]
+          if [[ -z "${${{inputs.tag_name}} + x}" ]]
           then
-              echo "TAG_NAME=latest-arm" >> "$GITHUB_ENV"
+              #echo "TAG_NAME=latest-arm" >> "$GITHUB_ENV"
+              echo "input unset"
           else
-              echo "TAG_NAME=${{inputs.tag_name}}" >> "$GITHUB_ENV"
+              #echo "TAG_NAME=${{inputs.tag_name}}" >> "$GITHUB_ENV"
+              echo "input set"
           fi
       - run : echo "env ${{env.TAG_NAME}}"
   first:
