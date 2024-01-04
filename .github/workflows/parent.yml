@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Set environment variables
         run: |
-          if [[ -z ${{inputs}} ]]
+          if [[ '' != ${{inputs.tag_name}} ]]
           then
               echo "TAG_NAME=${{inputs.tag_name}}" >> "$GITHUB_ENV"
           else
