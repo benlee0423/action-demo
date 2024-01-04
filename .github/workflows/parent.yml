@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Set environment variables
         run: |
-          if [[ -z "${{inputs.tag_name + x}}" ]]
+          if [[ -z "${{inputs.tag_name}} + x" ]]
           then
               echo "TAG_NAME=latest-arm" >> "$GITHUB_ENV"
           else
