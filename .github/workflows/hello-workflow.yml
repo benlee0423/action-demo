@@ -1,0 +1,13 @@
+name: Hello Workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Run hello action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run hello
+        uses: ./.github/action_templates/hello
+        with:
+          message: hello
