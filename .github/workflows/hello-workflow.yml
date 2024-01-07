@@ -9,7 +9,14 @@ jobs:
     steps:
       - name: deploy
         uses: actions/checkout@v4
-      - name: Run hello
-        uses: ./.github/action_templates/hello
-        with:
-          message: hello
+      - name: Set env vars for main
+        run: |
+          echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
+        if: startsWith(github.ref, 'ref/tags/main')
+      - name: Set env vars for other branch
+        run: |
+          echo "IMAGE_TAG=other" >> "$GITHUB_ENV"
+        if: startsWith(github.ref, 'ref/tags/main')
+      - name: echo
+        run: |
+          echo "${{env.IMAGE_TAG}}"
