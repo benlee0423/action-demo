@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: deploy
         uses: actions/checkout@v4
+      - name: echo github ref
+        run: |
+          echo "${{ github.ref }} "
       - name: Set env vars for main
         run: |
           echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
