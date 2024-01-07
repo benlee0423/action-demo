@@ -13,14 +13,17 @@ runs:
       shell: bash
       run: |
         echo "${{ github.ref }} "
-    #- name: Set env vars for main
-    #  run: |
-    #    echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
-    #  if: startsWith(github.ref, 'ref/tags/main')
-    #- name: Set env vars for other branch
-    #  run: |
-    #    echo "IMAGE_TAG=other" >> "$GITHUB_ENV"
-    #  if: startsWith(github.ref, 'ref/tags/main')
-    #- name: echo
-    #  run: |
-    #    echo "${{ inputs.message }} ${{env.IMAGE_TAG}}"
+    - name: Set env vars for main
+      shell: bash
+      run: |
+        echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
+      if: startsWith(github.ref, 'refs/heads/main')
+    - name: Set env vars for other branch
+      shell: bash
+      run: |
+        echo "IMAGE_TAG=other" >> "$GITHUB_ENV"
+      if: startsWith(github.ref, 'refs/heads/main')
+    - name: echo
+      shell: bash
+      run: |
+        echo "${{ inputs.message }} ${{env.IMAGE_TAG}}"
