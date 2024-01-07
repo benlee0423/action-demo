@@ -9,10 +9,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: echo github ref
+    - name: echo branch name
       shell: bash
       run: |
-        echo "${{ github.ref }} "
+        echo "${GITHUB_REF##*/}"
     - name: Set env vars for main
       shell: bash
       run: |
@@ -21,7 +21,7 @@ runs:
     - name: Set env vars for other branch
       shell: bash
       run: |
-        echo "IMAGE_TAG=${{ github.event.inputs.from_branch }}" >> "$GITHUB_ENV"
+        echo "IMAGE_TAG=${GITHUB_REF##*/}" >> "$GITHUB_ENV"
       if: ${{ !startsWith(github.ref, 'refs/heads/main') }}
     - name: echo
       shell: bash
