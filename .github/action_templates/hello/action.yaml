@@ -10,6 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: echo github ref
+      shell: bash
       run: |
         echo "${{ github.ref }} "
     #- name: Set env vars for main
