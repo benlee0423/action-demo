@@ -12,12 +12,29 @@ on:
         default: 'latest-arm'
         type: string
   workflow_call:
+env:
+  tag_name: env-tag
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variables
+        run: |
+          if [[ -z "${{inputs}}" ]]
+          then
+              #echo "TAG_NAME=latest-arm" >> "$GITHUB_ENV"
+              echo "input unset"
+          else
+              #echo "TAG_NAME=${{inputs.tag_name}}" >> "$GITHUB_ENV"
+              echo "input set"
+          fi
+      - run : echo "env ${{env.tag_name}}"
   first:
+    needs: setup
     uses: ./.github/workflows/first.yml
     with:
-      tag_name: ${{inputs.tag_name}}
+      tag_name: ${{vars.TAG_NAME}}
   second:
     needs: first
     uses: ./.github/workflows/second.yml
@@ -29,16 +46,41 @@ jobs:
   fourth:
     needs: third
     uses: ./.github/workflows/fourth.yml
+  fifth:
+    needs: fourth
+    runs-on: ubuntu-latest
+    env:
+      tag_name: ${{inputs.tag_name}}
+    outputs:
+      output1: ${{ steps.step1.outputs.result }}
+    steps:
+      - id: step1
+        run: echo "result=success" >> "$GITHUB_OUTPUT"
+      - run: echo " tag ${{env.tag_name}}"
   slack:
     runs-on: ubuntu-latest
     if: ${{ always() }}
-    needs: [first, second, third, fourth]
-    steps: 
+    needs: [first, second, third, fourth, fifth]
+    env:
+      OUTPUT: ${{needs.fifth.outputs.output1}}
+    steps:
+      - name: Set env JOBSTATUS
+        run: |
+          echo "$OUTPUT"
+          if [[ "success" = "$OUTPUT" ]]
+          then
+              echo "JOBSTATUS=success" >> "$GITHUB_ENV"
+          else
+              echo "JOBSTATUS=failure" >> "$GITHUB_ENV"
+          fi
+      - run: echo "$JOBSTATUS"
+      - name: deploy
+        uses: actions/checkout@v2
       - name: Publish slack message
         if: always()
         uses: ./.github/action_templates/slack
         with:
           slack-webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          job-status: ${{ job.status }}
+          job-status: ${{ env.JOBSTATUS }}
           pull_request_url: ${{ github.event.pull_request.html_url }}
           head_commit_url: ${{ github.event.head_commit.url }}

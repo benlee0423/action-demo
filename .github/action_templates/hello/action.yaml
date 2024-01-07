@@ -1,0 +1,22 @@
+name: simple echo template
+description: "A template to echo from inputs"
+
+inputs:
+  message:
+    description: 'Message to print'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set env vars for main
+      run: |
+        echo "IMAGE_TAG=main" >> $GITHUB_ENV
+      if: startsWith(github.ref, 'ref/tags/main')
+    - name: Set env vars for other branch
+      run: |
+        echo "IMAGE_TAG=other" >> $GITHUB_ENV
+      if: ! startsWith(github.ref, 'ref/tags/main')
+    - name: echo
+      run: |
+        echo "${{ inputs.message }} ${{env.IMAGE_TAG}}"
