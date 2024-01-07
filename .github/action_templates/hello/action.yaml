@@ -16,13 +16,13 @@ runs:
     - name: Set env vars for main
       shell: bash
       run: |
-        echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
+        echo "IMAGE_TAG=latest" >> "$GITHUB_ENV"
       if: startsWith(github.ref, 'refs/heads/main')
     - name: Set env vars for other branch
       shell: bash
       run: |
-        echo "IMAGE_TAG=other" >> "$GITHUB_ENV"
-      if: !startsWith(github.ref, 'refs/heads/main')
+        echo "IMAGE_TAG=${{ github.event.inputs.from_branch }}" >> "$GITHUB_ENV"
+      if: ${{ !startsWith(github.ref, 'refs/heads/main') }}
     - name: echo
       shell: bash
       run: |
