@@ -18,7 +18,7 @@ jobs:
       - name: Set env vars for other branch
         run: |
           echo "IMAGE_TAG=other" >> "$GITHUB_ENV"
-        if: startsWith(github.ref, 'refs/remotes/origin/main')
+        if: startsWith(github.ref, 'refs/heads/main')
       - name: echo
         run: |
           echo "${{env.IMAGE_TAG}}"
