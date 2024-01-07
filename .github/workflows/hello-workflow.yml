@@ -10,6 +10,6 @@ jobs:
       - name: deploy
         uses: actions/checkout@v4
       - name: Run hello
-        uses: ./github/action_templates/hello
+        uses: ./.github/action_templates/hello
         with:
           message: hello
