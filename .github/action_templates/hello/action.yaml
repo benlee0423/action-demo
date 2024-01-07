@@ -22,7 +22,7 @@ runs:
       shell: bash
       run: |
         echo "IMAGE_TAG=other" >> "$GITHUB_ENV"
-      if: ! startsWith(github.ref, 'refs/heads/main')
+      if: !startsWith(github.ref, 'refs/heads/main')
     - name: echo
       shell: bash
       run: |
