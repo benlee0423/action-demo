@@ -12,7 +12,7 @@ runs:
     - name: echo branch name
       shell: bash
       run: |
-        echo "${GITHUB_REF##*/}"
+        echo ${GITHUB_REF##*/}
     - name: Set env vars for main
       shell: bash
       run: |
