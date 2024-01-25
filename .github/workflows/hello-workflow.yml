@@ -16,11 +16,10 @@ jobs:
       - name: echo github ref
         run: |
           echo "${{ github.ref }} "
-      - name: echo hello
+      - name: echo docker token
         if: always()
-        uses: ./.github/action_templates/hello
-        with:
-          message: hello
+        run: |
+          echo "${{ secrets.DOCKER_AUTH_TOKEN }}"
       #- name: Set env vars for main
       #  run: |
       #    echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
