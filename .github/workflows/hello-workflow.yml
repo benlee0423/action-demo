@@ -20,6 +20,10 @@ jobs:
         if: always()
         run: |
           echo "${{ secrets.DOCKER_AUTH_TOKEN }}"
+      - name: hello
+        uses: ./.github/action_templates/hello
+        with:
+          message: "hello"
       #- name: Set env vars for main
       #  run: |
       #    echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
