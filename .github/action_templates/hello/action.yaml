@@ -17,7 +17,8 @@ runs:
       shell: bash
       run: |
         echo "PUSH=false" >> "$GITHUB_ENV"
-      if: ${{ startsWith(github.event.pull_request.head.repo.full_name, 'CIROH-UA') }}
+        echo "${{github.event.pull_request.head.repo.full_name}}"
+      if: ${{ !startsWith(github.event.pull_request.head.repo.full_name, 'CIROH-UA') }}
     - name: echo branch name
       shell: bash
       run: |
