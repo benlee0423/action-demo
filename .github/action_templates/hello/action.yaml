@@ -5,13 +5,15 @@ inputs:
   message:
     description: 'Message to print'
     required: true
-env:
-  PUSH: true
 
 runs:
   using: "composite"
   steps:
-    - name: set push
+    - name: set push to true
+      shell: bash
+      run: |
+        echo "PUSH=true" >> "$GITHUB_ENV"
+    - name: set push to false
       shell: bash
       run: |
         echo "PUSH=false" >> "$GITHUB_ENV"
