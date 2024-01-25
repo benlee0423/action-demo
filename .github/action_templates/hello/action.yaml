@@ -5,11 +5,11 @@ inputs:
   message:
     description: 'Message to print'
     required: true
+env:
+  PUSH: true
 
 runs:
   using: "composite"
-  env:
-      PUSH: true
   steps:
     - name: set push
       shell: bash
