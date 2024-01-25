@@ -25,6 +25,7 @@ jobs:
           echo "hello"
           echo "${{github.event.pull_request.base.repo.full_name}}"
           echo "${{github.event.pull_request.head.repo.full_name}}"
+        if: ${{ !startsWith(github.event.pull_request.head.repo.full_name, 'CIROH-UA') }}
       #- name: Set env vars for main
       #  run: |
       #    echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
