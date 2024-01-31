@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ${{inputs.runner_label}}
+    runs-on: ["${{inputs.runner_label}}"]
     steps:
       - name: deploy
         uses: actions/checkout@v4
