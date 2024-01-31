@@ -35,7 +35,7 @@ jobs:
     uses: ./.github/workflows/first.yml
     with:
       tag_name: ${{vars.TAG_NAME}}
-      runner_label: "[ubuntu-latest]"
+      runner_label: "ubuntu-latest"
   second:
     needs: first
     uses: ./.github/workflows/second.yml
