@@ -7,7 +7,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  setup:
+    name: Set up env
+    runs-on: ubuntu-latest
+    steps:
+      - name: set env for runner
+        shell: bash
+        run: |
+          echo "RUNNER_LABEL=linux,X86" >> "$GITHUB_ENV"
+        if: startsWith(github.ref, 'refs/heads/main')
   build:
+    needs: setup
     name: Run hello action
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +34,10 @@ jobs:
         uses: ./.github/action_templates/hello
         with:
           message: "hello"
+      - name: echo runner
+        if: always()
+        run: |
+          echo "${{ env.RUNNER_LABEL }}"
       #- name: Set env vars for main
       #  run: |
       #    echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
