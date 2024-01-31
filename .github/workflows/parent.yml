@@ -35,7 +35,7 @@ jobs:
     uses: ./.github/workflows/first.yml
     with:
       tag_name: ${{vars.TAG_NAME}}
-      runner_label: X86
+      runner_label: "[self-hosted, X86]"
   second:
     needs: first
     uses: ./.github/workflows/second.yml
