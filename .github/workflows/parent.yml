@@ -28,12 +28,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     steps:
-      - run: echo " result ${{needs.setup.outputs.output1}}}
+      - run: echo " result ${{needs.setup.outputs.output1}}
   second:
     runs-on: ubuntu-latest
     needs: [setup,first]
     steps:
-      - run: echo " result ${{needs.setup.outputs.output1}}}
+      - run: echo " result ${{needs.setup.outputs.output1}}
   third:
     needs: second
     uses: ./.github/workflows/third.yml
