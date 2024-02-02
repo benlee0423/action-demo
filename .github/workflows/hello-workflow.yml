@@ -10,6 +10,15 @@ env:
   TEST_TAG: user/app:test
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      push: ${{ steps.setmain.outputs.push }}
+    steps:
+      - id: setmain
+        run: echo "push=true" >> "$GITHUB_OUTPUT"
+        if: startsWith(github.ref, 'refs/heads/main')
+      - run: echo " tag ${{env.TEST_TAG}}"
   docker:
     name: Build Docker image
     runs-on: self-hosted
@@ -20,15 +29,13 @@ jobs:
         if: always()
         run: |
           echo "${{ secrets.DOCKER_AUTH_TOKEN }}"
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v5
+      - name: Build a Docker image
+        uses: ./.github/action_templates/build
         with:
-          context: .
-          load: true
-          tags: ${{ env.TEST_TAG }}
-      - name: Test
-        run: |
-          docker run --rm ${{ env.TEST_TAG }}
+          image-name: ${{ env.TEST_TAG }}
+      #- name: Test
+      #  run: |
+      #    docker run --rm ${{ env.TEST_TAG }}
       - name: Remove Image
         run: |
           docker image rm ${{ env.TEST_TAG }} -f

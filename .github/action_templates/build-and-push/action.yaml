@@ -1,0 +1,28 @@
+name: build and push template
+description: "A template to build and push docker image based on provided inputs"
+
+inputs:
+  docker-auth-token:
+    description: 'Docker Hub authentication token'
+    required: true
+  image-name:
+    description: 'image name to be built'
+    required: true
+  dockerfile-name:
+    description: 'The name of dockerfile to use'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Login to Docker Hub
+      shell: bash
+      run: |
+          echo "${{ inputs.docker-auth-token }}" | docker login --username awiciroh --password-stdin
+    - name: Build and Cache Docker Image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: awiciroh/${{ inputs.image-name }}
+        no-cache: true
