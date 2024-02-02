@@ -29,13 +29,18 @@ jobs:
         if: always()
         run: |
           echo "${{ secrets.DOCKER_AUTH_TOKEN }}"
-      - name: Build a Docker image
-        uses: ./.github/action_templates/build
-        with:
-          image-name: ${{ env.TEST_TAG }}
+      - name: event type
+        run: |
+          echo "event name: ${{github.event_name}}"
+          echo "event: ${{github.event}}"
+      #- name: Build a Docker image
+      #  uses: ./.github/action_templates/build
+      #  with:
+      #    image-name: ${{ env.TEST_TAG }}
+        
       #- name: Test
       #  run: |
       #    docker run --rm ${{ env.TEST_TAG }}
-      - name: Remove Image
-        run: |
-          docker image rm ${{ env.TEST_TAG }} -f
+      #- name: Remove Image
+      #  run: |
+      #    docker image rm ${{ env.TEST_TAG }} -f
