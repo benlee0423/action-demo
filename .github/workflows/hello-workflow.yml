@@ -6,49 +6,23 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  TEST_TAG: user/app:test
+
 jobs:
-  setup:
-    name: Set up env
-    runs-on: ubuntu-latest
-    steps:
-      - name: set env for runner
-        shell: bash
-        run: |
-          echo "RUNNER_LABEL=linux,X86" >> "$GITHUB_ENV"
-        if: startsWith(github.ref, 'refs/heads/main')
-      - name: echo runner
-        if: always()
-        run: |
-          echo "${{ env.RUNNER_LABEL }}"
-  build:
-    needs: setup
-    name: Run hello action
-    runs-on: ubuntu-latest
+  docker:
+    name: Build Docker image
+    runs-on: self-hosted
     steps:
       - name: deploy
         uses: actions/checkout@v4
-      - name: echo github ref
-        run: |
-          echo "${{ github.ref }} "
       - name: echo docker token
         if: always()
         run: |
           echo "${{ secrets.DOCKER_AUTH_TOKEN }}"
-      - name: hello
-        uses: ./.github/action_templates/hello
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v5
         with:
-          message: "hello"
-      - name: echo runner
-        if: always()
-        run: |
-          echo "${{ env.RUNNER_LABEL }}"
-      #- name: Set env vars for main
-      #  run: |
-      #    echo "IMAGE_TAG=main" >> "$GITHUB_ENV"
-      #- name: Set env vars for other branch
-      #  run: |
-      #    echo "IMAGE_TAG=other" >> "$GITHUB_ENV"
-      #  if: startsWith(github.ref, 'refs/heads/main')
-      #- name: echo
-      #  run: |
-      #    echo "${{env.IMAGE_TAG}}"
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
