@@ -33,6 +33,14 @@ jobs:
         run: |
           echo "event name: ${{github.event_name}}"
           echo "event: ${{github.event}}"
+      - name: do push
+        run : |
+          echo "event name is push"
+        if: ${{github.event_name}} == "push"
+      - name: not push
+        run : |
+          echo "event name is not push"
+        if: ${{github.event_name}} != "push"
       #- name: Build a Docker image
       #  uses: ./.github/action_templates/build
       #  with:
