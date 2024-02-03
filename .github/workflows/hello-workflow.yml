@@ -42,6 +42,17 @@ jobs:
         run : |
           echo "event name is not push"
         if: github.event_name == 'pull_request'
+      - name: build
+        uses: ./.github/action_templates/build
+        with:
+          image-name: ${{ env.TEST_TAG }}
+        if: github.event_name == 'pull_request' && !startsWith(github.ref, 'refs/heads/main')
+
+      - name: build and push
+        uses: ./.github/action_templates/build-and-push
+        with:
+          image-name: ${{ env.TEST_TAG }}
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
       #- name: Build a Docker image
       #  uses: ./.github/action_templates/build
       #  with:
