@@ -33,6 +33,7 @@ jobs:
         run: |
           echo "event name: ${{github.event_name}}"
           echo "event: ${{github.event}}"
+          echo "git ref: ${{github.ref}}"
       - name: do push
         run : |
           echo "event name is push"
