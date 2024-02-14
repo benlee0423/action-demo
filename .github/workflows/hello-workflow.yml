@@ -19,6 +19,7 @@ jobs:
         run: echo "push=true" >> "$GITHUB_OUTPUT"
         if: startsWith(github.ref, 'refs/heads/main')
       - run: echo " tag ${{env.TEST_TAG}}"
+      - run: echo " pr head repo ${{github.event.pull_request.head.repo.full_name}}"
   docker:
     name: Build Docker image
     runs-on: self-hosted
