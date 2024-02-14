@@ -21,7 +21,7 @@ jobs:
       - run: echo " tag ${{env.TEST_TAG}}"
       - run: echo " github.ref ${{github.ref}}"
       - run: echo " pr head repo ${{github.event.pull_request.head.repo.full_name}}"
-        if: startsWith(github.event.pull_request.head.repo.full_name, 'CIROH-UA')
+        if: startsWith(github.event.pull_request.head.repo.full_name, 'CIROH-UA') || startsWith(github.ref, 'refs/heads/main')
   docker:
     name: Build Docker image
     runs-on: self-hosted
