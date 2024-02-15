@@ -53,19 +53,19 @@ jobs:
           image-name: ${{ env.TEST_TAG }}
         if: github.event_name == 'pull_request' && !startsWith(github.ref, 'refs/heads/main')
 
-      - name: build and push
-        uses: ./.github/action_templates/build-and-push
-        with:
-          image-name: ${{ env.TEST_TAG }}
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
-      #- name: Build a Docker image
-      #  uses: ./.github/action_templates/build
+      #- name: build and push
+      #  uses: ./.github/action_templates/build-and-push
       #  with:
       #    image-name: ${{ env.TEST_TAG }}
+      #  if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+      - name: Build a Docker image
+        uses: ./.github/action_templates/build
+        with:
+          image-name: ${{ env.TEST_TAG }}
         
-      #- name: Test
-      #  run: |
-      #    docker run --rm ${{ env.TEST_TAG }}
+      - name: Test
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}
       #- name: Remove Image
       #  run: |
       #    docker image rm ${{ env.TEST_TAG }} -f
