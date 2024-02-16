@@ -9,6 +9,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Echo PATH
+      shell: bash
+      run: |
+        echo "PATH: ${{ vars.DATA_PATH}}"
     - name: Build Docker Image
       uses: docker/build-push-action@v5
       with:
