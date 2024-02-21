@@ -28,7 +28,10 @@ jobs:
       - name: Generate version
         id: version
         run: echo "::set-output name=VERSION::${{ steps.package.outputs.content }}"
-
+      - name: build
+        uses: ./.github/action_templates/build
+        with:
+          image_name: image
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
