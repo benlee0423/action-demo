@@ -10,10 +10,10 @@ runs:
   using: "composite"
   steps:
     - name: Read README.md
-        id: package
-        uses: jaywcjlove/github-action-read-file@main
-        with:
-          path: version.txt
+      id: package
+      uses: jaywcjlove/github-action-read-file@main
+      with:
+        path: version.txt
     - name: Echo version.txt
       run: echo "${{ steps.package.outputs.content }}"
  #   - name: Build Docker Image
