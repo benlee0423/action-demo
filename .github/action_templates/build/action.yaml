@@ -9,10 +9,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Echo PATH
-      shell: bash
-      run: |
-        echo "PATH: ${{ vars.DATA_PATH}}"
     - name: Read README.md
         id: package
         uses: jaywcjlove/github-action-read-file@main
