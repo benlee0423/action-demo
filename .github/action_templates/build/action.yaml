@@ -15,6 +15,7 @@ runs:
       with:
         path: version.txt
     - name: Echo version.txt
+      shell: bash
       run: echo "${{ steps.package.outputs.content }}"
  #   - name: Build Docker Image
  #     uses: docker/build-push-action@v5
