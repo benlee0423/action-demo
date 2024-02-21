@@ -13,10 +13,17 @@ runs:
       shell: bash
       run: |
         echo "PATH: ${{ vars.DATA_PATH}}"
-    - name: Build Docker Image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        load: true
-        tags: ${{ inputs.image-name }}
-        no-cache: true
+    - name: Read README.md
+        id: package
+        uses: jaywcjlove/github-action-read-file@main
+        with:
+          path: version.txt
+    - name: Echo version.txt
+      run: echo "${{ steps.package.outputs.content }}"
+ #   - name: Build Docker Image
+ #     uses: docker/build-push-action@v5
+ #     with:
+ #       context: .
+ #       load: true
+ #       tags: ${{ inputs.image-name }}
+ #       no-cache: true
