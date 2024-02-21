@@ -16,6 +16,15 @@ jobs:
         run: |
           echo "done!"
           echo "github ref: ${{github.ref}}"
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Read README.md
+        id: package
+        uses: jaywcjlove/github-action-read-file@main
+        with:
+          path: version.txt
+      - name: Echo version.txt
+        run: echo "${{ steps.package.outputs.content }}"
       - name: Generate version
         id: version
         run: echo "::set-output name=VERSION::${{github.ref}}"
