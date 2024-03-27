@@ -47,6 +47,12 @@ jobs:
         run : |
           echo "event name is not push"
         if: github.event_name == 'pull_request'
+      - name: wc test
+        run : |
+           mkdir /temp
+           echo "hello1" > /temp/hello1.txt
+           echo "hello2" > /temp/hello2.txt
+           ls /temp | wc -l
       #- name: build
       #  uses: ./.github/action_templates/build
       #  with:
@@ -58,17 +64,17 @@ jobs:
       #  with:
       #    image-name: ${{ env.TEST_TAG }}
       #  if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
-      - name: System prune
-        run: |
-          docker system prune -af
-      - name: Build a Docker image
-        uses: ./.github/action_templates/build
-        with:
-          image-name: ${{ env.TEST_TAG }}
+      # - name: System prune
+      #  run: |
+      #    docker system prune -af
+      # - name: Build a Docker image
+      #  uses: ./.github/action_templates/build
+      #  with:
+      #    image-name: ${{ env.TEST_TAG }}
         
-      - name: Test
-        run: |
-          docker run --rm ${{ env.TEST_TAG }}
+      # - name: Test
+      #  run: |
+      #    docker run --rm ${{ env.TEST_TAG }}
       #- name: Remove Image
       #  run: |
       #    docker image rm ${{ env.TEST_TAG }} -f
