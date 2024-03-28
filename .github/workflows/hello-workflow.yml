@@ -52,6 +52,7 @@ jobs:
            echo "hello1" > /temp/hello1.txt
            echo "hello2" > /temp/hello2.txt
            count=`ls /temp | wc -l`
+           echo $count
            if [[ "$count" < 1 ]]; then
              echo "less than 1"
              exit 1
