@@ -51,7 +51,13 @@ jobs:
         run : |
            echo "hello1" > /temp/hello1.txt
            echo "hello2" > /temp/hello2.txt
-           ls /temp | wc -l
+           count=`ls /temp | wc -l`
+           if [[ "$count" < 1 ]]; then
+             echo "less than 1"
+             exit 1
+           else
+             echo "not less than 1"
+           fi
       #- name: build
       #  uses: ./.github/action_templates/build
       #  with:
