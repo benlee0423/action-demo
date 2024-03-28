@@ -49,7 +49,6 @@ jobs:
         if: github.event_name == 'pull_request'
       - name: wc test
         run : |
-           mkdir /temp
            echo "hello1" > /temp/hello1.txt
            echo "hello2" > /temp/hello2.txt
            ls /temp | wc -l
