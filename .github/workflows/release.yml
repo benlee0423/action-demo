@@ -17,7 +17,7 @@ jobs:
         run: |
           VERSION=$(cat version.txt)
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "branch_name=release-${VERSION}" >> $GITHUB_OUTPUT
+          echo "branch_name=v${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Create tag
         run: |
@@ -49,6 +49,6 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'another-workflow.yml',
+              workflow_id: 'test.yml',
               ref: '${{ steps.get-version.outputs.branch_name }}'
             })
