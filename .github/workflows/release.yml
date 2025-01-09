@@ -1,44 +1,54 @@
-name: "tagged-release"
+name: Create Tag, Release, Branch, and Trigger Workflow
 
 on:
   push:
     paths:
       - 'version.txt'
-  workflow_dispatch:
 
 jobs:
-  tagged-release:
-    name: "Tagged Release"
-    runs-on: "ubuntu-latest"
-
+  create-tag-release-branch:
+    runs-on: ubuntu-latest
     steps:
-      - name: "Build & test"
-        run: |
-          echo "done!"
-          echo "github ref: ${{github.ref}}"
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Read README.md
-        id: package
-        uses: jaywcjlove/github-action-read-file@main
-        with:
-          path: version.txt
-      - name: Echo version.txt
-        run: echo "${{ steps.package.outputs.content }}"
-      - name: Generate version
-        id: version
-        run: echo "::set-output name=VERSION::${{ steps.package.outputs.content }}"
-      - name: build
-        uses: ./.github/action_templates/build
-        with:
-          image_name: image
-      - name: Create Release
-        id: create_release
+
+      - name: Read version
+        id: get-version
+        run: |
+          VERSION=$(cat version.txt)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "branch_name=release-${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git tag v${{ steps.get-version.outputs.version }}
+          git push origin v${{ steps.get-version.outputs.version }}
+
+      - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.package.outputs.content }}
-          release_name: Release ${{ steps.package.outputs.content }}
+          tag_name: v${{ steps.get-version.outputs.version }}
+          release_name: Release ${{ steps.get-version.outputs.version }}
           draft: false
           prerelease: false
+
+      - name: Create branch
+        run: |
+          git checkout -b ${{ steps.get-version.outputs.branch_name }}
+          git push -u origin ${{ steps.get-version.outputs.branch_name }}
+
+      - name: Trigger Another Workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'another-workflow.yml',
+              ref: '${{ steps.get-version.outputs.branch_name }}'
+            })
